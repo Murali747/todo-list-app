@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A simple responsive to-do list app built with HTML, CSS and JavaScript.">
+<title>My To-Do List</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script>
+</head>
+<body><main class="app"><header class="header"><p class="eyebrow">YOUR DAILY PLANNER</p><h1>My To-Do List <span>✓</span></h1><p class="subtitle">Small steps make big progress.</p></header>
+<section class="card" aria-label="Task manager"><form id="todo-form" class="form"><label class="sr-only" for="task-input">Enter a task</label><input id="task-input" type="text" placeholder="What needs to get done?" maxlength="120" autocomplete="off" required><button class="add-button" type="submit">Add task</button></form>
+<div class="toolbar"><p id="task-summary" aria-live="polite">0 tasks left</p><div class="filters" role="group" aria-label="Filter tasks"><button type="button" class="filter active" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter" data-filter="active" aria-pressed="false">Active</button><button type="button" class="filter" data-filter="completed" aria-pressed="false">Completed</button></div></div>
+<ul id="task-list" class="task-list" aria-label="Your tasks"></ul><div id="empty-state" class="empty-state"><span>✦</span><p>No tasks yet. Add one to get started!</p></div>
+<footer class="footer"><span id="completed-summary">0 completed</span><button type="button" id="clear-completed" class="text-button">Clear completed</button></footer></section><p class="local-note">Your tasks are saved in this browser.</p></main></body></html>
