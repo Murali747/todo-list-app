@@ -1,37 +1,35 @@
-# To-Do List App
+# TaskFlow — Personal Task Manager
 
-A responsive task manager built with **HTML, CSS, and vanilla JavaScript**.
+A responsive task management application built using HTML, CSS, and vanilla JavaScript.
 
 ## Features
-- Add tasks with input validation
+
+- Add new tasks
+- Edit existing task descriptions
 - Mark tasks as completed or active
-- Filter by All, Active, and Completed
+- Filter tasks by All, Active, and Completed
 - Delete individual tasks
 - Clear completed tasks
-- Persist tasks in browser `localStorage`
-- Responsive design for desktop and mobile
+- Track remaining and completed tasks
+- Persist tasks using browser localStorage
+- Responsive interface for desktop and mobile
 
 ## Technologies
-HTML5 · CSS3 · JavaScript · localStorage
 
-## Run locally
-1. Download or clone this repository.
+- HTML5
+- CSS3
+- JavaScript
+- DOM Manipulation
+- Browser localStorage
+
+## Getting Started
+
+1. Clone or download the repository.
 2. Open `index.html` in your browser.
-3. Start adding tasks. No installation or build tools are needed.
+3. Add a task and manage your daily activities.
 
-## Project structure
-```text
-todo-list/
-├── index.html
-├── style.css
-├── script.js
-└── README.md
-```
-
-## Future improvements
-- Edit tasks
-- Add due dates and priorities
-- Add search and dark mode
+No additional dependencies are required.
 
 ## Author
+
 Murali Krishnan R

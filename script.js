@@ -1,19 +1,22 @@
 "use strict";
 
 /* ----------------------------------
-   1. DOM elements and configuration
+   1. DOM elements
 ---------------------------------- */
 
 const elements = {
     form: document.querySelector("#task-form"),
     input: document.querySelector("#task-input"),
     taskList: document.querySelector("#task-list"),
+
     emptyState: document.querySelector("#empty-state"),
     emptyTitle: document.querySelector("#empty-title"),
     emptyMessage: document.querySelector("#empty-message"),
+
     remainingCount: document.querySelector("#remaining-count"),
     completedCount: document.querySelector("#completed-count"),
     totalBadge: document.querySelector("#total-badge"),
+
     clearCompletedButton: document.querySelector("#clear-completed"),
     filterButtons: document.querySelectorAll(".filter-button")
 };
@@ -31,10 +34,12 @@ const EMPTY_MESSAGES = {
         title: "Nothing on your list yet",
         message: "Add your first task and start making progress."
     },
+
     active: {
         title: "You're all caught up",
         message: "There are no active tasks remaining."
     },
+
     completed: {
         title: "Nothing completed yet",
         message: "Finish a task and it will appear here."
@@ -123,6 +128,38 @@ function createTask(text) {
 }
 
 
+function editTask(taskId) {
+    const task = tasks.find(item => item.id === taskId);
+
+    if (!task) {
+        return;
+    }
+
+    const updatedText = prompt("Edit your task:", task.text);
+
+    if (updatedText === null) {
+        return;
+    }
+
+    const cleanText = updatedText.trim();
+
+    if (!cleanText) {
+        alert("Task description cannot be empty.");
+        return;
+    }
+
+    if (cleanText.length > 120) {
+        alert("Task description cannot exceed 120 characters.");
+        return;
+    }
+
+    task.text = cleanText;
+
+    saveTasks();
+    renderTasks();
+}
+
+
 function toggleTask(taskId) {
     tasks = tasks.map(task => {
         if (task.id !== taskId) {
@@ -157,7 +194,7 @@ function clearCompletedTasks() {
 
 
 /* ----------------------------------
-   5. Task filtering and statistics
+   5. Filtering and statistics
 ---------------------------------- */
 
 function getVisibleTasks() {
@@ -176,12 +213,11 @@ function getVisibleTasks() {
 
 function getTaskStatistics() {
     const completed = tasks.filter(task => task.completed).length;
-    const remaining = tasks.length - completed;
 
     return {
         total: tasks.length,
         completed,
-        remaining
+        remaining: tasks.length - completed
     };
 }
 
@@ -198,12 +234,13 @@ function updateStatistics() {
     elements.totalBadge.textContent =
         `${statistics.total} task${statistics.total === 1 ? "" : "s"}`;
 
-    elements.clearCompletedButton.disabled = statistics.completed === 0;
+    elements.clearCompletedButton.disabled =
+        statistics.completed === 0;
 }
 
 
 /* ----------------------------------
-   6. Task rendering
+   6. Create task elements
 ---------------------------------- */
 
 function createTaskElement(task) {
@@ -215,6 +252,7 @@ function createTaskElement(task) {
         listItem.classList.add("completed");
     }
 
+    // Completion checkbox
     const checkbox = document.createElement("input");
 
     checkbox.type = "checkbox";
@@ -230,11 +268,32 @@ function createTaskElement(task) {
         toggleTask(task.id);
     });
 
+
+    // Task description
     const taskText = document.createElement("span");
 
     taskText.className = "task-text";
     taskText.textContent = task.text;
 
+
+    // Edit button
+    const editButton = document.createElement("button");
+
+    editButton.type = "button";
+    editButton.className = "edit-button";
+    editButton.textContent = "Edit";
+
+    editButton.setAttribute(
+        "aria-label",
+        `Edit task: ${task.text}`
+    );
+
+    editButton.addEventListener("click", () => {
+        editTask(task.id);
+    });
+
+
+    // Delete button
     const deleteButton = document.createElement("button");
 
     deleteButton.type = "button";
@@ -250,11 +309,21 @@ function createTaskElement(task) {
         deleteTask(task.id);
     });
 
-    listItem.append(checkbox, taskText, deleteButton);
+
+    listItem.append(
+        checkbox,
+        taskText,
+        editButton,
+        deleteButton
+    );
 
     return listItem;
 }
 
+
+/* ----------------------------------
+   7. Render the interface
+---------------------------------- */
 
 function updateEmptyState(visibleTaskCount) {
     const isEmpty = visibleTaskCount === 0;
@@ -270,8 +339,23 @@ function updateEmptyState(visibleTaskCount) {
 }
 
 
+function updateFilterButtons() {
+    elements.filterButtons.forEach(button => {
+        const isActive = button.dataset.filter === currentFilter;
+
+        button.classList.toggle("active", isActive);
+
+        button.setAttribute(
+            "aria-pressed",
+            String(isActive)
+        );
+    });
+}
+
+
 function renderTasks() {
     const visibleTasks = getVisibleTasks();
+
     const fragment = document.createDocumentFragment();
 
     visibleTasks.forEach(task => {
@@ -283,30 +367,6 @@ function renderTasks() {
     updateStatistics();
     updateEmptyState(visibleTasks.length);
     updateFilterButtons();
-}
-
-
-/* ----------------------------------
-   7. Filter controls
----------------------------------- */
-
-function updateFilterButtons() {
-    elements.filterButtons.forEach(button => {
-        const isActive = button.dataset.filter === currentFilter;
-
-        button.classList.toggle("active", isActive);
-        button.setAttribute("aria-pressed", String(isActive));
-    });
-}
-
-
-function setFilter(filter) {
-    if (!Object.values(FILTERS).includes(filter)) {
-        return;
-    }
-
-    currentFilter = filter;
-    renderTasks();
 }
 
 
@@ -334,7 +394,13 @@ function handleFormSubmit(event) {
 function handleFilterClick(event) {
     const selectedFilter = event.currentTarget.dataset.filter;
 
-    setFilter(selectedFilter);
+    if (!Object.values(FILTERS).includes(selectedFilter)) {
+        return;
+    }
+
+    currentFilter = selectedFilter;
+
+    renderTasks();
 }
 
 
@@ -344,14 +410,20 @@ function handleClearCompleted() {
 
 
 /* ----------------------------------
-   9. Event listener registration
+   9. Initialize event listeners
 ---------------------------------- */
 
 function initializeEventListeners() {
-    elements.form.addEventListener("submit", handleFormSubmit);
+    elements.form.addEventListener(
+        "submit",
+        handleFormSubmit
+    );
 
     elements.filterButtons.forEach(button => {
-        button.addEventListener("click", handleFilterClick);
+        button.addEventListener(
+            "click",
+            handleFilterClick
+        );
     });
 
     elements.clearCompletedButton.addEventListener(
@@ -362,7 +434,7 @@ function initializeEventListeners() {
 
 
 /* ----------------------------------
-   10. Application initialization
+   10. Start application
 ---------------------------------- */
 
 function initializeApp() {

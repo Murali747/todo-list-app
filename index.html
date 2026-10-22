@@ -6,7 +6,7 @@
 
     <meta
         name="description"
-        content="A simple and elegant task manager to organize your daily work."
+        content="TaskFlow is a simple task manager for organizing your daily work."
     >
 
     <title>TaskFlow | Personal Task Manager</title>
@@ -67,7 +67,6 @@
             </form>
 
             <div class="task-toolbar">
-
                 <div class="task-count">
                     <span id="remaining-count">0 tasks remaining</span>
                 </div>
@@ -100,7 +99,6 @@
                         Completed
                     </button>
                 </div>
-
             </div>
 
             <div class="task-list-container">
@@ -108,7 +106,9 @@
 
                 <div id="empty-state" class="empty-state">
                     <div class="empty-icon" aria-hidden="true">✦</div>
+
                     <h3 id="empty-title">Nothing on your list yet</h3>
+
                     <p id="empty-message">
                         Add your first task and start making progress.
                     </p>
@@ -125,6 +125,7 @@
                     type="button"
                     id="clear-completed"
                     class="clear-button"
+                    disabled
                 >
                     Clear completed
                 </button>
