@@ -1,12 +1,142 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="A simple responsive to-do list app built with HTML, CSS and JavaScript.">
-<title>My To-Do List</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="A simple and elegant task manager to organize your daily work."
+    >
+
+    <title>TaskFlow | Personal Task Manager</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
-<body><main class="app"><header class="header"><p class="eyebrow">YOUR DAILY PLANNER</p><h1>My To-Do List <span>✓</span></h1><p class="subtitle">Small steps make big progress.</p></header>
-<section class="card" aria-label="Task manager"><form id="todo-form" class="form"><label class="sr-only" for="task-input">Enter a task</label><input id="task-input" type="text" placeholder="What needs to get done?" maxlength="120" autocomplete="off" required><button class="add-button" type="submit">Add task</button></form>
-<div class="toolbar"><p id="task-summary" aria-live="polite">0 tasks left</p><div class="filters" role="group" aria-label="Filter tasks"><button type="button" class="filter active" data-filter="all" aria-pressed="true">All</button><button type="button" class="filter" data-filter="active" aria-pressed="false">Active</button><button type="button" class="filter" data-filter="completed" aria-pressed="false">Completed</button></div></div>
-<ul id="task-list" class="task-list" aria-label="Your tasks"></ul><div id="empty-state" class="empty-state"><span>✦</span><p>No tasks yet. Add one to get started!</p></div>
-<footer class="footer"><span id="completed-summary">0 completed</span><button type="button" id="clear-completed" class="text-button">Clear completed</button></footer></section><p class="local-note">Your tasks are saved in this browser.</p></main></body></html>
+
+<body>
+    <main class="app-container">
+
+        <header class="app-header">
+            <div class="brand">
+                <span class="brand-icon" aria-hidden="true">✓</span>
+                <span class="brand-name">TaskFlow</span>
+            </div>
+
+            <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+
+            <h1>Make today <span>count.</span></h1>
+
+            <p class="subtitle">
+                Organize your tasks. Focus on what matters.
+            </p>
+        </header>
+
+        <section class="task-card" aria-label="Task manager">
+
+            <div class="card-heading">
+                <div>
+                    <h2>My Tasks</h2>
+                    <p class="section-description">
+                        Keep track of your daily priorities.
+                    </p>
+                </div>
+
+                <span class="task-badge" id="total-badge">0 tasks</span>
+            </div>
+
+            <form id="task-form" class="task-form">
+                <label class="visually-hidden" for="task-input">
+                    Enter a new task
+                </label>
+
+                <input
+                    type="text"
+                    id="task-input"
+                    placeholder="What needs to get done?"
+                    maxlength="120"
+                    autocomplete="off"
+                    required
+                >
+
+                <button type="submit" class="add-button">
+                    <span aria-hidden="true">+</span>
+                    Add task
+                </button>
+            </form>
+
+            <div class="task-toolbar">
+
+                <div class="task-count">
+                    <span id="remaining-count">0 tasks remaining</span>
+                </div>
+
+                <div class="filter-group" role="group" aria-label="Filter tasks">
+                    <button
+                        type="button"
+                        class="filter-button active"
+                        data-filter="all"
+                        aria-pressed="true"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="active"
+                        aria-pressed="false"
+                    >
+                        Active
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-button"
+                        data-filter="completed"
+                        aria-pressed="false"
+                    >
+                        Completed
+                    </button>
+                </div>
+
+            </div>
+
+            <div class="task-list-container">
+                <ul id="task-list" class="task-list" aria-label="Task list"></ul>
+
+                <div id="empty-state" class="empty-state">
+                    <div class="empty-icon" aria-hidden="true">✦</div>
+                    <h3 id="empty-title">Nothing on your list yet</h3>
+                    <p id="empty-message">
+                        Add your first task and start making progress.
+                    </p>
+                </div>
+            </div>
+
+            <footer class="task-footer">
+                <div class="completion-info">
+                    <span class="completion-dot" aria-hidden="true"></span>
+                    <span id="completed-count">0 completed</span>
+                </div>
+
+                <button
+                    type="button"
+                    id="clear-completed"
+                    class="clear-button"
+                >
+                    Clear completed
+                </button>
+            </footer>
+
+        </section>
+
+        <footer class="app-footer">
+            <p>One task at a time. One step closer.</p>
+            <p class="storage-note">Your tasks stay in this browser.</p>
+        </footer>
+
+    </main>
+</body>
+</html>
